@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 
 # This is a tic-tac-toe program with included AI
 # Kellen Lask
@@ -108,7 +108,7 @@ class TicTac:
 
 		return [x, y]
 
-
+	#Display an end of game menu offering a new game
 	def end_game_menu(self, winner):
 		# Declare the end of the game
 		if winner == self.COMPUTER:
@@ -153,6 +153,8 @@ class TicTac:
 
 		bestMove = openMoves[0]
 		bestWeight = -20
+		worstMove = openMoves[0]
+		worstWeight = 20
 
 		#Go through all the empty moves, and determine their weights
 		for move in openMoves:
@@ -179,10 +181,18 @@ class TicTac:
 				bestMove = move
 				bestWeight = bestMove.get_weight()
 
+			#If the move is the worst so far, record it
+			if move.get_weight() < worstWeight:
+				worstMove = move
+				worstWeight = worstMove.get_weight()
+
 			#Undo the test move
 			board[move.get_x()][move.get_y()] = 0
 
-		return bestMove
+		if player == self.HUMAN:
+			return worstMove
+		else:
+			return bestMove
 
 
 	#Go through the given board and return all the empty spaces
